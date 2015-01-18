@@ -204,42 +204,48 @@ if __name__ == "__main__":
     print('Connecting to ', arg.host)
     tag = SensorTag(arg.host)
 
-    # Enabling selected sensors
-    if arg.temperature or arg.all:
-        tag.IRtemperature.enable()
-    if arg.humidity or arg.all:
-        tag.humidity.enable()
-    if arg.barometer or arg.all:
-        tag.barometer.enable()
-    if arg.accelerometer or arg.all:
-        tag.accelerometer.enable()
-    if arg.magnetometer or arg.all:
-        tag.magnetometer.enable()
-    if arg.gyroscope or arg.all:
-        tag.gyroscope.enable()
-
-    # Some sensors (e.g., temperature, accelerometer) need some time for initialization.
-    # Not waiting here after enabling a sensor, the first read value might be empty or incorrect.
-    time.sleep(1.0)
-
     counter=1
     while True:
-       if arg.temperature or arg.all:
-           print('Temp: ', tag.IRtemperature.read())
-       if arg.humidity or arg.all:
-           print("Humidity: ", tag.humidity.read())
-       if arg.barometer or arg.all:
-           print("Barometer: ", tag.barometer.read())
-       if arg.accelerometer or arg.all:
-           print("Accelerometer: ", tag.accelerometer.read())
-       if arg.magnetometer or arg.all:
-           print("Magnetometer: ", tag.magnetometer.read())
-       if arg.gyroscope or arg.all:
-           print("Gyroscope: ", tag.gyroscope.read())
-       if counter >= arg.count and arg.count != 0:
-           break
-       counter += 1
-       time.sleep(arg.t)
+        # Enabling selected sensors
+        if arg.temperature or arg.all:
+            tag.IRtemperature.enable()
+        if arg.humidity or arg.all:
+            tag.humidity.enable()
+        if arg.barometer or arg.all:
+            tag.barometer.enable()
+        if arg.accelerometer or arg.all:
+            tag.accelerometer.enable()
+        if arg.magnetometer or arg.all:
+            tag.magnetometer.enable()
+        if arg.gyroscope or arg.all:
+            tag.gyroscope.enable()
+
+        # Some sensors (e.g., temperature, accelerometer) need some time for initialization.
+        # Not waiting here after enabling a sensor, the first read value might be empty or incorrect.
+        time.sleep(1.0)
+
+        if arg.temperature or arg.all:
+            print('Temp: ', tag.IRtemperature.read())
+            tag.IRtemperature.disable()
+        if arg.humidity or arg.all:
+            print("Humidity: ", tag.humidity.read())
+            tag.humidity.disable()
+        if arg.barometer or arg.all:
+            print("Barometer: ", tag.barometer.read())
+            tag.barometer.disable()
+        if arg.accelerometer or arg.all:
+            print("Accelerometer: ", tag.accelerometer.read())
+            tag.accelerometer.disable()
+        if arg.magnetometer or arg.all:
+            print("Magnetometer: ", tag.magnetometer.read())
+            tag.magnetometer.disable()
+        if arg.gyroscope or arg.all:
+            print("Gyroscope: ", tag.gyroscope.read())
+            tag.gyroscope.disable()
+        if counter >= arg.count and arg.count != 0:
+            break
+        counter += 1
+        time.sleep(arg.t)
 
     tag.disconnect()
     del tag
